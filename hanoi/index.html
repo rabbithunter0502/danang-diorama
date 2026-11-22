@@ -1,0 +1,86 @@
+<!doctype html>
+<html lang="vi">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="referrer" content="no-referrer">
+<title>Hà Nội · Diorama 3D</title>
+<meta name="description" content="Hà Nội thu nhỏ dạng diorama voxel: Hồ Hoàn Kiếm, phố cổ dày đặc, dây điện, xe máy, hoàng hôn. Chạy ngay trên trình duyệt.">
+<meta property="og:type" content="website">
+<meta property="og:title" content="Hà Nội · Diorama 3D">
+<meta property="og:description" content="Hà Nội thu nhỏ dạng diorama voxel: Hồ Hoàn Kiếm, phố cổ dày đặc, dây điện, xe máy, hoàng hôn.">
+<meta property="og:image" content="preview.jpg">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="icon" href="data:,">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+<style>
+:root {
+  --wall: #1a1520;
+  --ink: #f2e6d4;
+  --muted: #b8a090;
+  --glow: #ffc98a;
+  --line: rgba(255, 201, 138, 0.4);
+  --ui: "Be Vietnam Pro", system-ui, sans-serif;
+  color-scheme: dark;
+}
+html, body { height: 100%; }
+body { margin: 0; background: var(--wall); color: var(--ink); font-family: var(--ui); overflow: hidden; }
+#stage { position: fixed; inset: 0; }
+#c { display: block; width: 100%; height: 100%; touch-action: none; cursor: grab; }
+#c:active { cursor: grabbing; }
+.brand {
+  position: fixed; top: 0; left: 0; z-index: 2; pointer-events: none;
+  padding: calc(14px + env(safe-area-inset-top, 0px)) 18px 0;
+  text-shadow: 0 2px 20px rgba(20, 14, 20, 0.8);
+}
+.brand h1 { margin: 0; font: 700 clamp(24px, 4.5vw, 36px)/1.05 var(--ui); color: var(--glow); }
+.brand p { margin: 6px 0 0; font: 500 11px/1.3 var(--ui); letter-spacing: 0.12em; text-transform: uppercase; color: var(--muted); }
+.strip {
+  position: fixed; left: 0; right: 0; bottom: 0; z-index: 2;
+  display: flex; flex-wrap: wrap; gap: 8px 10px; align-items: center; justify-content: center;
+  padding-left: max(14px, env(safe-area-inset-left, 0px));
+  padding-right: max(14px, env(safe-area-inset-right, 0px));
+  padding-block: 16px calc(10px + env(safe-area-inset-bottom, 0px));
+  background: linear-gradient(to top, rgba(26, 21, 32, 0.85), rgba(26, 21, 32, 0));
+  pointer-events: none;
+}
+.strip > * { pointer-events: auto; }
+button {
+  font: 600 11px/1 var(--ui); letter-spacing: 0.07em; text-transform: uppercase;
+  color: var(--glow); background: rgba(26, 21, 32, 0.55); border: 1px solid var(--line);
+  border-radius: 999px; padding: 8px 12px; cursor: pointer;
+}
+button:hover { background: rgba(255, 201, 138, 0.12); }
+button[aria-pressed="true"] { background: rgba(255, 201, 138, 0.22); }
+@media (max-width: 640px) {
+  .strip { flex-wrap: nowrap; overflow-x: auto; justify-content: flex-start; scrollbar-width: none; pointer-events: auto; }
+  .strip::-webkit-scrollbar { display: none; }
+  .strip > button { flex: 0 0 auto; font-size: 10px; padding: 7px 10px; }
+}
+.loading[hidden] { display: none; }
+.loading { position: fixed; inset: 0; display: grid; place-items: center; color: var(--muted);
+  font-size: 12px; letter-spacing: 0.1em; text-transform: uppercase; z-index: 3; pointer-events: none; }
+</style>
+<div id="stage"><canvas id="c" aria-label="Voxel miniature diorama of Hà Nội around Hoàn Kiếm Lake"></canvas></div>
+<div class="loading" id="loading">đang dựng phố cổ…</div>
+<header class="brand"><h1>Hà Nội</h1><p>Diorama 3D · Hồ Hoàn Kiếm</p></header>
+<div class="strip">
+  <button id="overview" type="button">Overview</button>
+  <button id="view" type="button">Lake view</button>
+  <button id="orbit" type="button" aria-pressed="true">Auto-orbit</button>
+  <button id="follow" type="button" aria-pressed="false">Follow a scooter</button>
+  <button id="night" type="button" aria-pressed="false">Night</button>
+  <button id="fwview" type="button">Fireworks</button>
+  <button id="lantern" type="button" aria-pressed="false">Lantern show</button>
+  <button id="weather" type="button" aria-pressed="false">Clear sky</button>
+  <button id="sound" type="button" aria-pressed="false">Sound off</button>
+</div>
+<script src="https://cdn.jsdelivr.net/npm/three@0.147.0/build/three.min.js" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+<script src="https://cdn.jsdelivr.net/npm/three@0.147.0/examples/js/controls/OrbitControls.js" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+<script src="./main.js"></script>
+</body>
+</html>

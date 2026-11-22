@@ -1,3 +1,5 @@
 node_modules/
 .DS_Store
 dist/
+hanoi/node_modules
+hanoi/dist
